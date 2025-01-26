@@ -11,7 +11,7 @@ def right_child(i):
     
 class Min_Heap:
     def __init__(self):
-        self.heap = [0] #the zero'th is redundant
+        self.heap = [(0,0)] #the zero'th is redundant
   
     def size(self):
         return len(self.heap)-1
@@ -19,9 +19,9 @@ class Min_Heap:
     def bubble_down(self,ind): 
         while left_child(ind) <= self.size():
             newInd = ind
-            if self.heap[left_child(ind)] < self.heap[ind]:
+            if self.heap[left_child(ind)][0] < self.heap[ind][0]:
                     newInd = left_child(ind)
-            if right_child(ind) <= self.size() and self.heap[right_child(ind)] < self.heap[newInd]:
+            if right_child(ind) <= self.size() and self.heap[right_child(ind)][0] < self.heap[newInd][0]:
                     newInd = right_child(ind)
             if ind == newInd:
                     break
@@ -29,7 +29,7 @@ class Min_Heap:
             ind = newInd
     
     def bubble_up(self,ind):
-        while ind > 1 and self.heap[ind] < self.heap[parent(ind)] :
+        while ind > 1 and self.heap[ind][0] < self.heap[parent(ind)][0] :
             self.heap[ind], self.heap[parent(ind)] = self.heap[parent(ind)], self.heap[ind]
             ind = parent(ind)
 
