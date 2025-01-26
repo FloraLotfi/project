@@ -36,6 +36,11 @@ class Min_Heap:
     def insert(self, item):
         self.heap.append(item)
         self.bubble_up(self.size())
+        
+    def get_min(self) :
+        if self.size() == 0 :
+            raise Exception("Heap is empty")
+        return self.heap[1]
 
     def del_min(self) :
         if self.size() == 0 :

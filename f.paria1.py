@@ -43,10 +43,32 @@ class Node:
             indx=new_puzzle.index('0')
             new_puzzle[indx],new_puzzle[indx+(i[0]*3)+i[1]]=new_puzzle[indx+(i[0]*3)+i[1]],new_puzzle[indx] 
             new_puzzle=''.join(new_puzzle)
+            #h=self.h(new_puzzle,self.goal)
             children.append(new_puzzle)
         return children
 
-    
+'''
+    def A_star(self):
+        startQ=Min_heap()
+        startnode=self.puzzle
+        g=0
+        h=self.h(self.puzzle,self.goal)
+        f=g+h
+        startQ.insert((f,startnode))
+        while startQ.size()>=0:
+            cur=startQ.get_min()
+            if cur[1]==self.goal:
+                pass
+            allchild=self.children()
+            g+=1
+            for ind,i in enumerate(allchild):
+                h=self.h(i,self.goal)
+                allchild[ind]=(h,i)
+            
+            for i in allchild:
+                pass
+
+  '''          
 
 f=Node("123406785","123456780")
 #print(f.possible_moves(0,0))
