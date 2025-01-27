@@ -29,4 +29,4 @@ def h(puzzle,goal):
     return hcost
 
 
-print(h('123840765','123456780'))
+print(h('152304768','123456780'))
