@@ -128,7 +128,7 @@ class Node:
             for ind,i in enumerate(allchild):
                 h=self.h(i.puzzle,self.goal)
                 allchild[ind]=(h+g,i)
-                if 
+                
             
             for i in allchild:
                 pass
