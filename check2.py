@@ -2,11 +2,19 @@ file = open('p.txt', 'r')
 x = []
 for idx, line in enumerate(file):
     x.append(line.strip())  
-N = x[0]
+N = int(x[0])
 puzzle = ''.join(x[1:]) 
 puzzle = puzzle.replace(' ', '') 
-print(puzzle)
 file.close()
+
+def make_goal(num):
+    n=(num*num)-1
+    x=[]
+    for i in range(n):
+        x.append(str(i+1))
+    x.append(str(0))
+    goal=''.join(x[:])
+    return goal
 
 #heap
 
@@ -62,11 +70,13 @@ class Min_Heap:
         return MIN
 
 class Node:
-    def __init__(self,puzzle,g,parent):
+    def __init__(self,puzzle,g,parent,n):
         self.puzzle=puzzle
+        self.n=n
         self.g=g
-        self.f=self.g+self.h("123456780")
+        self.f=self.g+self.h(make_goal(self.n))
         self.parent=parent
+        
         
 
     def Index(self,num,p):
@@ -79,7 +89,7 @@ class Node:
         S_moves = []
         possible_moves = [(-1, 0), (1, 0), (0, -1), (0, 1)]
         for k in possible_moves:
-            if (0 <= i + k[0]) and (i+k[0] < 3) and (0 <= j + k[1])and (j +k[1] < 3):
+            if (0 <= i + k[0]) and (i+k[0] < self.n) and (0 <= j + k[1])and (j +k[1] < self.n):
                 S_moves.append(k)
         return S_moves
 
@@ -98,15 +108,15 @@ class Node:
         for i in possible:
             new_puzzle=list(self.puzzle)
             indx=new_puzzle.index('0')
-            new_puzzle[indx],new_puzzle[indx+(i[0]*3)+i[1]]=new_puzzle[indx+(i[0]*3)+i[1]],new_puzzle[indx] 
+            new_puzzle[indx],new_puzzle[indx+(i[0]*self.n)+i[1]]=new_puzzle[indx+(i[0]*self.n)+i[1]],new_puzzle[indx] 
             new_puzzle=''.join(new_puzzle)
             if new_puzzle!=self.parent:
                 children.append(new_puzzle)
         return children
 
-def A_star(start_puzzle,goal):
+def A_star(start_puzzle,goal,n):
     startQ=Min_Heap()
-    startnode=Node(start_puzzle,0,None)
+    startnode=Node(start_puzzle,0,None,n)
     startQ.insert((startnode.f,startnode))
     closed=set()
 
@@ -115,7 +125,7 @@ def A_star(start_puzzle,goal):
 
         if cur.puzzle==goal:
             #print(cur.puzzle)
-            return cur
+            return (cur,n)
         
         closed.add(cur.puzzle)
 
@@ -124,12 +134,13 @@ def A_star(start_puzzle,goal):
         for i in allchildren:
             if i in closed:
                 continue
-            new_child=Node(i,cur.g+1,cur)
+            new_child=Node(i,cur.g+1,cur,n)
             startQ.insert((new_child.f,new_child))
     return None
 
 def Print(result):
-    cur=result
+    cur=result[0]
+    n=result[1]
     path=[]
     #print(cur.parent)
     
@@ -141,21 +152,15 @@ def Print(result):
     k=0
     for i in path:
         k+=1
-        for j in i.puzzle[0:3]:
-            print(j,end=' ')
-        print('')
-        for j in i.puzzle[3:6]:
-            print(j,end=' ')
-        print('')
-        for j in i.puzzle[6:9]:
-            print(j,end=' ')
-        print('')
+        for m in range(n):
+            for j in i.puzzle[m*n:(m+1)*n]:
+                print(j,end=' ')
+            print('')
         print('------')
     print(k)
          
-s=A_star("704356218","123456780")
-
-#Print(s)
+s=A_star(puzzle,make_goal(N),N)
+Print(s)
 
 
 
