@@ -51,10 +51,6 @@ class Min_Heap:
         self.bubble_down(1)
         return MIN
 
-
-
-
-
 class Node:
     def __init__(self,puzzle,g,parent):
         self.puzzle=puzzle
@@ -111,7 +107,6 @@ def A_star(start_puzzle,goal):
         f,cur=startQ.del_min()
 
         if cur.puzzle==goal:
-            #print(cur.puzzle)
             return cur
         
         closed.add(cur.puzzle)
@@ -148,5 +143,6 @@ def Print(result):
         print('------')
 
          
-s=A_star("076532814","123456780")
-Print(s)
+s=A_star("327108645","123456780")
+if s:
+    Print(s)
