@@ -133,8 +133,8 @@ def A_star(start_puzzle,goal):
         for i in allchildren:
             if i in closed:
                 continue
-            new_child=Node(i,cur.g+1,cur.puzzle)
-            startQ.insert((new_child.f,new_child))
+            new_child=Node(i,cur.g+1,cur)
+            startQ.insert((new_child.f,new_child.puzzle))
     return None
 
 def Print(result):
@@ -144,8 +144,8 @@ def Print(result):
     
     while cur.parent!=None:
         path.append(cur)
-        print(cur.parent)
-        cur = cur.parent
+        print('h',cur.parent)
+        cur = cur.parent,
     
     path=path[::-1]
     for i in path:
