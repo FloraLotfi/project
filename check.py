@@ -30,3 +30,14 @@ def h(puzzle,goal):
 
 
 print(h('152304768','123456780'))
+
+file = open('p.txt', 'r')
+x = []
+for idx, line in enumerate(file):
+    x.append(line.strip())  
+N = x[0]
+
+puzzle = ''.join(x[1:]) 
+puzzle = puzzle.replace(' ', '') 
+file.close()
+print(puzzle)
