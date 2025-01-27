@@ -54,7 +54,6 @@ class Min_Heap:
 
 
 
-
 class Node:
     def __init__(self,puzzle,goal,g,parent):
         self.puzzle=puzzle
