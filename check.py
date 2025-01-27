@@ -13,3 +13,20 @@ allchild[0]=allchild[1]
 for i in allchild:
     pass
 print(allchild)
+
+def Index(num,p):
+    idx=p.index(num)
+    i= idx//3
+    j= idx-(i*3)
+    return i,j
+
+def h(puzzle,goal):
+    hcost=0
+    for num in goal:
+        ig,jg=Index(num,goal)
+        ip,jp=Index(num,puzzle)
+        hcost+=(abs(ig-ip)+abs(jg-jp))
+    return hcost
+
+
+print(h('123840765','123456780'))
