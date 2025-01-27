@@ -13,8 +13,8 @@ def make_goal(num):
     for i in range(n):
         x.append(str(i+1))
     x.append(str(0))
-    goal=''.join(x[:])
-    return goal
+    #goal=''.join(x[:])
+    return x
 
 #heap
 
@@ -74,24 +74,14 @@ class Node:
         self.puzzle=puzzle
         self.n=n
         self.g=g
-        self.f=self.g+self.h(make_goal(self.n))
+        self.f=self.g+self.h("123456780")
         self.parent=parent
         
-        
-
     def Index(self,num,p):
         idx=p.index(num)
         i= idx//3
         j= idx-(i*3)
         return i,j
-        
-    def possible_moves(self,i, j):
-        S_moves = []
-        possible_moves = [(-1, 0), (1, 0), (0, -1), (0, 1)]
-        for k in possible_moves:
-            if (0 <= i + k[0]) and (i+k[0] < self.n) and (0 <= j + k[1])and (j +k[1] < self.n):
-                S_moves.append(k)
-        return S_moves
 
     def h(self,goal):
         hcost=0
@@ -100,18 +90,30 @@ class Node:
             ip,jp=self.Index(num,self.puzzle)
             hcost+=(abs(ig-ip)+abs(jg-jp))
         return hcost
-
+       
+    def possible_moves(self,i, j):
+        S_moves = []
+        possible_moves = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+        for k in possible_moves:
+            if (0 <= i + k[0]) and (i+k[0] < self.n) and (0 <= j + k[1])and (j +k[1] < self.n):
+                S_moves.append(k)
+        return S_moves
+    
     def children(self):
         i0,j0=self.Index('0',self.puzzle)
         possible=self.possible_moves(i0,j0)
         children=[]
+        
         for i in possible:
             new_puzzle=list(self.puzzle)
+            #new_puzzle=self.puzzle
             indx=new_puzzle.index('0')
+            print(indx)
             new_puzzle[indx],new_puzzle[indx+(i[0]*self.n)+i[1]]=new_puzzle[indx+(i[0]*self.n)+i[1]],new_puzzle[indx] 
             new_puzzle=''.join(new_puzzle)
             if new_puzzle!=self.parent:
                 children.append(new_puzzle)
+        print(children)
         return children
 
 def A_star(start_puzzle,goal,n):
@@ -159,5 +161,8 @@ def Print(result):
         print('------')
     print(k)
          
-s=A_star(puzzle,make_goal(N),N)
-Print(s)
+#s=A_star(puzzle,make_goal(N),N)
+#Print(s)
+
+u=Node("123405678",0,"103425678",3)
+print(u.children())
