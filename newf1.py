@@ -68,12 +68,7 @@ class Node:
         i= idx//3
         j= idx-(i*3)
         return i,j
-    
-    def moves(self):
-        i0,j0= self.Index('0')
-        self.possible_moves(i0,j0)
         
-            
     def possible_moves(self,i, j):
         S_moves = []
         possible_moves = [(-1, 0), (1, 0), (0, -1), (0, 1)]
@@ -101,13 +96,6 @@ class Node:
             new_puzzle=''.join(new_puzzle)
             if new_puzzle!=self.parent:
                 children.append(new_puzzle)
-        '''
-        childrenobject=[]
-        for i in children:
-            childrenobject.append(Node(i,self.goal,self.g+1,self))
-        for i in childrenobject:
-            print(i.puzzle)
-        '''
         return children
 
 
@@ -133,7 +121,7 @@ def A_star(start_puzzle,goal):
         for i in allchildren:
             if i in closed:
                 continue
-            new_child=Node(i,cur.g+1,cur.puzzle)
+            new_child=Node(i,cur.g+1,cur)
             startQ.insert((new_child.f,new_child))
     return None
 
@@ -144,21 +132,21 @@ def Print(result):
     
     while cur:
         path.append(cur)
-        print('h',cur.parent)
         cur = cur.parent
     
     path=path[::-1]
     for i in path:
-        print(i.puzzle,'\n')
+        for j in i.puzzle[0:3]:
+            print(j,end=' ')
+        print('')
+        for j in i.puzzle[3:6]:
+            print(j,end=' ')
+        print('')
+        for j in i.puzzle[6:9]:
+            print(j,end=' ')
+        print('')
+        print('------')
 
          
-
-#f=Node("123406785","123456780",0,"103426785")
-#print(f.possible_moves(0,0))
-#print(f.children())
-
-
-k=Node("123056478",0,None)
-s=A_star(k,"123456780")
-if s:
-    Print(s)
+s=A_star("831076245","123456780")
+Print(s)
