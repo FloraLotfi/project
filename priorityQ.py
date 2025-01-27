@@ -46,7 +46,7 @@ class Min_Heap:
         if self.size() == 0 :
             raise Exception("Heap is empty")
         MIN = self.heap[1]
-        self.heap[1] = self.heap[-1]
+        self.heap[1] = self.heap[-1]s
         del(self.heap[-1])
         self.bubble_down(1)
         return MIN
