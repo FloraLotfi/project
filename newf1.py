@@ -133,8 +133,8 @@ def A_star(start_puzzle,goal):
         for i in allchildren:
             if i in closed:
                 continue
-            new_child=Node(i,cur.g+1,cur)
-            startQ.insert((new_child.f,new_child.puzzle))
+            new_child=Node(i,cur.g+1,cur.puzzle)
+            startQ.insert((new_child.f,new_child))
     return None
 
 def Print(result):
@@ -142,10 +142,10 @@ def Print(result):
     path=[]
     #print(cur.parent)
     
-    while cur.parent!=None:
+    while cur:
         path.append(cur)
         print('h',cur.parent)
-        cur = cur.parent,
+        cur = cur.parent
     
     path=path[::-1]
     for i in path:
@@ -157,6 +157,8 @@ def Print(result):
 #print(f.possible_moves(0,0))
 #print(f.children())
 
-s=A_star("123056478","123456780")
+
+k=Node("123056478",0,None)
+s=A_star(k,"123456780")
 if s:
     Print(s)
