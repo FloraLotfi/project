@@ -139,12 +139,12 @@ def Print(result):
     k=-1
     for i in path:
         k+=1
-        print("step",k,":",i.where)
         for m in range(n):
             for j in i.puzzle[m*n:(m+1)*n]:
                 print(j,end=' ')
             print('')
         print('------')
+        print("step",k,":",i.where)
     print('number of steps:',k)
          
 f=A_star(puzzle,make_goal(N),N)
