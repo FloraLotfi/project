@@ -52,7 +52,7 @@ class Min_Heap:
 
     def del_min(self) :
         if self.size() == 0 :
-            raise Exception("Heap is empty")
+            raise Exception("Puzzle is not solvable!")
         MIN = self.heap[1]
         self.heap[1] = self.heap[-1]
         del(self.heap[-1])
