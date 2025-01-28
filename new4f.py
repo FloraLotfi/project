@@ -60,12 +60,13 @@ class Min_Heap:
         return MIN
 
 class Node:
-    def __init__(self,puzzle,g,parent,n):
+    def __init__(self,puzzle,g,parent,n,move):
         self.puzzle=puzzle
         self.n=n
         self.g=g
         self.f=self.g+self.h(make_goal(self.n))
         self.parent=parent
+        self.where=move
 
     def Index(self,num,p):
         idx=p.index(num)
@@ -83,10 +84,10 @@ class Node:
        
     def possible_moves(self,i, j):
         S_moves = []
-        possible_moves = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+        possible_moves = {(-1, 0):'Up', (1, 0):'Down', (0, -1):'Left', (0, 1):'Right'}
         for k in possible_moves:
             if (0 <= i + k[0]) and (i+k[0] <= (self.n-1)) and (0 <= j + k[1])and (j +k[1] <= (self.n-1)):
-                S_moves.append(k)
+                S_moves.append((k,possible_moves[k]))
         return S_moves
     
     def children(self):
@@ -97,14 +98,14 @@ class Node:
         for i in possible:
             new_puzzle=list(self.puzzle)
             indx=new_puzzle.index('0')
-            new_puzzle[indx],new_puzzle[indx+(i[0]*self.n)+i[1]]=new_puzzle[indx+(i[0]*self.n)+i[1]],new_puzzle[indx] 
+            new_puzzle[indx],new_puzzle[indx+(i[0][0]*self.n)+i[0][1]]=new_puzzle[indx+(i[0][0]*self.n)+i[0][1]],new_puzzle[indx] 
             if new_puzzle!=self.parent:
-                children.append(new_puzzle)
+                children.append((new_puzzle,i[1]))
         return children
 
 def A_star(start_puzzle,goal,n):
     startQ=Min_Heap()
-    startnode=Node(start_puzzle,0,None,n)
+    startnode=Node(start_puzzle,0,None,n,None)
     startQ.insert((startnode.f,startnode))
     closed=[]
 
@@ -119,9 +120,9 @@ def A_star(start_puzzle,goal,n):
         allchildren=cur.children()
         
         for i in allchildren:
-            if i in closed:
+            if i[0] in closed:
                 continue
-            new_child=Node(i,cur.g+1,cur,n)
+            new_child=Node(i[0],cur.g+1,cur,n,i[1])
             startQ.insert((new_child.f,new_child))
     return None
 
@@ -135,16 +136,20 @@ def Print(result):
         cur = cur.parent
     
     path=path[::-1]
-    k=0
+    k=-1
     for i in path:
         k+=1
+        print("step",k,":",i.where)
         for m in range(n):
             for j in i.puzzle[m*n:(m+1)*n]:
                 print(j,end=' ')
             print('')
         print('------')
-    print('number of steps:',k-1)
+    print('number of steps:',k)
          
 f=A_star(puzzle,make_goal(N),N)
 Print(f)
 
+#h=Node(puzzle,0,None,N)
+#print(h.possible_moves(2,2))
+#print(h.children())
