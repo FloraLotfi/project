@@ -5,10 +5,10 @@ with open("p.txt", "r") as file:
 # حذف کاراکترهای اضافی مثل '\n' و تبدیل خطوط به لیست
 result = [item for line in content for item in line.split()]
 
-N=result[0]
+N=int(result[0])
 puzzle=result[1:]
-print(N)
-print(puzzle)
+#print(N)
+#print(puzzle)
 
 
 
@@ -78,10 +78,11 @@ class Node:
     def __init__(self,puzzle,g,parent,n):
         self.puzzle=puzzle
         self.n=n
+        #print('k:',type(self.n))
         self.g=g
-        self.f=self.g+self.h(['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','0'])
+        self.f=self.g+self.h(make_goal(self.n))
         self.parent=parent
-        
+#['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','0']
     def Index(self,num,p):
         idx=p.index(num)
         i= idx//3
@@ -100,13 +101,14 @@ class Node:
         S_moves = []
         possible_moves = [(-1, 0), (1, 0), (0, -1), (0, 1)]
         for k in possible_moves:
-            if (0 <= i + k[0]) and (i+k[0] < self.n) and (0 <= j + k[1])and (j +k[1] < self.n):
+            #print('l:',type(self.n))
+            if (0 <= i + k[0]) and (i+k[0] <= (self.n-1)) and (0 <= j + k[1])and (j +k[1] <= (self.n-1)):
                 S_moves.append(k)
         return S_moves
     
     def children(self):
         i0,j0=self.Index('0',self.puzzle)
-        print(10,j0)
+        #print(10,j0)
         possible=self.possible_moves(i0,j0)
         children=[]
         
@@ -117,6 +119,7 @@ class Node:
             #new_puzzle=''.join(new_puzzle)
             if new_puzzle!=self.parent:
                 children.append(new_puzzle)
+        #print(children)
         return children
 
 def A_star(start_puzzle,goal,n):
@@ -145,7 +148,7 @@ def A_star(start_puzzle,goal,n):
 
 def Print(result):
     cur=result[0]
-    n=result[1]
+    n=int(result[1])
     path=[]
     #print(cur.parent)
     
@@ -167,8 +170,11 @@ def Print(result):
 #s=A_star(['1','2','3','4','5','6','7','8','9','10','11','12','0','13','14','15'],['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','0'],4)
 #Print(s)
 
-d=Node(puzzle,0,None,N)
-print(d.children())
+#d=Node(puzzle,0,None,N)
+#print(d.children())
+
+f=A_star(puzzle,make_goal(N),N)
+Print(f)
 
 #['1','2','3','4','5','6','7','8','0']
 #u=Node(['1','2','3','4','5','6','0','7','8'],0,['1', '2', '3', '4', '5', '6', '7', '0', '8'],3)
