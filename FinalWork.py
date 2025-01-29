@@ -24,7 +24,7 @@ def right_child(i):
     
 class Min_Heap:
     def __init__(self):
-        self.heap = [(0,0)] #the zero'th is redundant
+        self.heap = [(300,'0')] #the zero'th is redundant
   
     def size(self):
         return len(self.heap)-1
@@ -111,7 +111,10 @@ def A_star(start_puzzle,goal,n):
 
     while startQ.size()>=0:
         f,cur=startQ.del_min()
-
+        if f==300:
+            print("empty")
+            return None
+        
         if cur.puzzle==goal:
             return (cur,n)
         
@@ -127,6 +130,8 @@ def A_star(start_puzzle,goal,n):
     return None
 
 def Print(result):
+    if result==None:
+        return 'empty'
     cur=result[0]
     n=int(result[1])
     path=[]
