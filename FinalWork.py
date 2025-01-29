@@ -24,8 +24,8 @@ def right_child(i):
     
 class Min_Heap:
     def __init__(self):
-        self.heap = [(300,'0')] #the zero'th is redundant
-  
+        self.heap = [(0,0)] 
+
     def size(self):
         return len(self.heap)-1
     
@@ -52,7 +52,7 @@ class Min_Heap:
 
     def del_min(self) :
         if self.size() == 0 :
-            raise Exception("Puzzle is not solvable!")
+            raise Exception("empty list!")
         MIN = self.heap[1]
         self.heap[1] = self.heap[-1]
         del(self.heap[-1])
@@ -103,7 +103,18 @@ class Node:
                 children.append((new_puzzle,i[1]))
         return children
 
+def solvable(puzzle):
+    inv=0
+    for indx,i in enumerate(puzzle):
+        for j in puzzle[indx+1:]:
+            if int(i)!=0 and int(j)!=0 and int(i)>int(j):
+                inv+=1
+    return inv%2
+
 def A_star(start_puzzle,goal,n):
+    if solvable(start_puzzle)==1:
+        return 1
+    
     startQ=Min_Heap()
     startnode=Node(start_puzzle,0,None,n,None)
     startQ.insert((startnode.f,startnode))
@@ -111,9 +122,6 @@ def A_star(start_puzzle,goal,n):
 
     while startQ.size()>=0:
         f,cur=startQ.del_min()
-        if f==300:
-            print("empty")
-            return None
         
         if cur.puzzle==goal:
             return (cur,n)
@@ -130,8 +138,10 @@ def A_star(start_puzzle,goal,n):
     return None
 
 def Print(result):
-    if result==None:
-        return 'empty'
+    if result==1:
+        print('puzzle is not sovable!')
+        return 
+    
     cur=result[0]
     n=int(result[1])
     path=[]
