@@ -103,16 +103,27 @@ class Node:
                 children.append((new_puzzle,i[1]))
         return children
 
-def solvable(puzzle):
+def solvable(puzzle,n):
     inv=0
+    line=0
     for indx,i in enumerate(puzzle):
         for j in puzzle[indx+1:]:
             if int(i)!=0 and int(j)!=0 and int(i)>int(j):
                 inv+=1
-    return inv%2
+    for j in range(n):
+        if '0' in puzzle[j*n:(j+1)*n]:
+            line=j%2
+
+    inv=inv%2
+    if n%2==1:
+        return inv
+    else:
+        if (line==0 and inv==0)or(line==1 and inv==1):
+            return 1
+    return 0
 
 def A_star(start_puzzle,goal,n):
-    if solvable(start_puzzle)==1:
+    if solvable(start_puzzle,n)==1:
         return 1
     
     startQ=Min_Heap()
